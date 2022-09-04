@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class TransformView : MultiplayerBehavior
+public class HTransformView : MultiplayerBehavior
 {
 
     public float receivedDeltaTime;
-    private SteamView view;
+    private HView view;
 
     void Awake()
     {
-        view = GetComponent<SteamView>();
+        view = GetComponent<HView>();
     }
 
     public override void OnReadingView(ViewMessage obs)

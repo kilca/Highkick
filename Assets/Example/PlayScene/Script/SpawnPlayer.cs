@@ -15,7 +15,7 @@ public class SpawnPlayer : MonoBehaviour
     void Start()
     {
         Vector3 randomPosition = new Vector3(Random.Range(minX, maxX), 10, Random.Range(minZ, maxZ));
-        SteamManager.Instantiate(playerPrefab.name, new Vector3S(randomPosition), new QuaternionS(Quaternion.identity), new string[0]);
+        HNetwork.Instantiate(playerPrefab.name, new Vector3S(randomPosition), new QuaternionS(Quaternion.identity), new string[0]);
     }
 
 

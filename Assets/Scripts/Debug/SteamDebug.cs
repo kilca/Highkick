@@ -3,9 +3,18 @@ using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 
-public static class SteamDebug
+public static class HDebug
 {
 
+    public enum DebugLevel {
+        None=1,
+        Log=2,
+        Warning=3,
+        Error=4
+    };
+
+    //define at which level we also print on the editor
+    public static DebugLevel editorDebugLevel = DebugLevel.Warning;
 
     private const int MAX_LINE = 10;
     private const int TRUNCATE_NUMBER = 48;
@@ -16,7 +25,7 @@ public static class SteamDebug
     private static StringBuilder sb = new StringBuilder();
 
 
-    public static SteamDebugUI ui;
+    public static HDebugUI ui;
 
     //========================
 
@@ -42,6 +51,12 @@ public static class SteamDebug
 
     public static void Log(object s)
     {
+
+        if (editorDebugLevel >= DebugLevel.Log)
+        {
+            Debug.Log(s);
+        }
+
         if (logs == null)
         {
             logs = new List<string>();
@@ -52,12 +67,24 @@ public static class SteamDebug
 
     public static void LogError(object s)
     {
+
+        if (editorDebugLevel >= DebugLevel.Error)
+        {
+            Debug.LogError(s);
+        }
+
         logs.Add(Truncate("ERROR | " +s.ToString(), TRUNCATE_NUMBER));
         SendLogs();
     }
 
     public static void LogWarning(object s)
     {
+
+        if (editorDebugLevel >= DebugLevel.Warning)
+        {
+            Debug.LogWarning(s);
+        }
+
         logs.Add(Truncate("WARN | " + s.ToString(), TRUNCATE_NUMBER));
         SendLogs();
     }

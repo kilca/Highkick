@@ -4,7 +4,7 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class SteamDebugUI : MonoBehaviour
+public class HDebugUI : MonoBehaviour
 {
     private Text text;
 
@@ -12,7 +12,7 @@ public class SteamDebugUI : MonoBehaviour
     void Start()
     {
         text = GetComponent<Text>();
-        SteamDebug.ui = this;
+        HDebug.ui = this;
     }
 
     public void NotifyUpdate(string logs)

@@ -9,17 +9,17 @@ public class FriendObject : MonoBehaviour
 
     public async void Invite()
     {
-        if (SteamLobbyManager.UserInLobby)
+        if (HNetwork.UserInLobby)
         {
-            SteamLobbyManager.currentLobby.InviteFriend(steamid);
+            HNetwork.currentLobby.InviteFriend(steamid);
             Debug.Log("Invited " + steamid);
         }
         else
         {
-            bool result = await SteamLobbyManager.CreateLobby();
+            bool result = await HNetwork.CreateLobby();
             if (result)
             {
-                SteamLobbyManager.currentLobby.InviteFriend(steamid);
+                HNetwork.currentLobby.InviteFriend(steamid);
                 Debug.Log("Invited " + steamid + " Created a new lobby");
             }
         }

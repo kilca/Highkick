@@ -22,12 +22,12 @@ public class FPSController : MonoBehaviour
     [HideInInspector]
     public bool canMove = true;
 
-    private SteamView view;
+    private HView view;
 
     void Start()
     {
         characterController = GetComponent<CharacterController>();
-        view = GetComponent<SteamView>();
+        view = GetComponent<HView>();
         // Lock cursor
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;

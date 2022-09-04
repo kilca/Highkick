@@ -30,7 +30,7 @@ public static class MessageHandlerNetwork
     {
         if (viewListeners.ContainsKey(id))
         {
-            SteamDebug.LogError("view listener already exist");
+            HDebug.LogError("view listener already exist");
         }
         else
         {
@@ -55,7 +55,7 @@ public static class MessageHandlerNetwork
     {
         if (!listeners.ContainsKey(m.MESSAGE_TYPE))
         {
-            SteamDebug.LogError("key : " + m.MESSAGE_TYPE + ", not handled");
+            HDebug.LogError("key : " + m.MESSAGE_TYPE + ", not handled");
             return;
         }
         for (int i = 0; i < listeners[m.MESSAGE_TYPE].Count; i++)
@@ -69,7 +69,7 @@ public static class MessageHandlerNetwork
     public static void HandleMessages()
     {
 
-        if (SteamManager.loadingLevelAndPausedNetwork)
+        if (HNetwork.loadingLevelAndPausedNetwork)
         {
             return;
         }

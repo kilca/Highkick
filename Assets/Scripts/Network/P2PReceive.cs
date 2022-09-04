@@ -7,8 +7,6 @@ using UnityEngine;
 public class P2PReceive : MonoBehaviour
 {
 
-    public static SteamManager Instance { get; private set; }
-
     private void Awake()
     {
         DontDestroyOnLoad(this);
@@ -19,7 +17,7 @@ public class P2PReceive : MonoBehaviour
     {
         while (SteamNetworking.IsP2PPacketAvailable())
         {
-            SteamDebug.Log("Packet received");
+            HDebug.Log("Packet received");
 
             var p2packet = SteamNetworking.ReadP2PPacket();
 
@@ -28,17 +26,17 @@ public class P2PReceive : MonoBehaviour
                 try
                 {
                     Message m = ObjectSerializationExtension.Deserialize<Message>(p2packet.Value.Data);
-                    SteamDebug.Log("Receive : " + m.MESSAGE_TYPE);
+                    HDebug.Log("Receive : " + m.MESSAGE_TYPE);
                     MessageHandlerNetwork._queue.Add(m);
                 }
                 catch (Exception e)
                 {
-                    SteamDebug.LogError("Error in receiving packet");
+                    HDebug.LogError("Error in receiving packet");
                 }
             }
             else
             {
-                SteamDebug.LogError("packet has no value");
+                HDebug.LogError("packet has no value");
             }
         }
     }

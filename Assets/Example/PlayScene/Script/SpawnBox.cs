@@ -14,7 +14,7 @@ public class SpawnBox : MonoBehaviour
         {
             Debug.Log("Spawn du cube");
             Vector3S pos = new Vector3S(new Vector3(0,10,0));
-            SteamManager.Instantiate(cube.name, pos, new QuaternionS(Quaternion.identity), new string[0]);
+            HNetwork.Instantiate(cube.name, pos, new QuaternionS(Quaternion.identity), new string[0]);
         }
     }
 }

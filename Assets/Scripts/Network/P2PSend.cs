@@ -18,7 +18,7 @@ public static class P2PSend
     private static void PrepareAndSend(Message mes)
     {
         byte[] packet = ObjectSerializationExtension.SerializeToByteArray(mes);
-        foreach (SteamId id in SteamLobbyManager.Instance.getPlayers())
+        foreach (SteamId id in HNetwork.getPlayers())
         {
 
 
@@ -28,11 +28,11 @@ public static class P2PSend
             }
             Debug.Log("sending : " + mes.MESSAGE_TYPE + ", to :" + id);
 
-            SteamDebug.Log("Sending packet to " + id);
+            HDebug.Log("Sending packet to " + id);
             bool sent = SteamNetworking.SendP2PPacket(id, packet);
             if (!sent)
             {
-                SteamDebug.LogError("ERROR in sending package");
+                HDebug.LogError("ERROR in sending package");
             }
         }
     }
@@ -40,7 +40,7 @@ public static class P2PSend
     public static void SendPacket(Message m)
     {
         messages.Add(m);
-        if (!SteamManager.isMessageQueueRunning)
+        if (!HNetwork.isMessageQueueRunning)
         {
             return;
         }

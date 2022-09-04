@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SteamView : MonoBehaviour, IListener
+public class HView : MonoBehaviour, IListener
 {
 
     public SteamIdData ownerId=0;
@@ -21,7 +21,7 @@ public class SteamView : MonoBehaviour, IListener
 
     public void OnNotify(Message message)
     {
-        Debug.Log("Notify steamView");
+        Debug.Log("Notify HView");
         ViewMessage vm = (ViewMessage) message._data;
         int i = 0;
         foreach(MultiplayerBehavior o in observedComponent)
@@ -39,9 +39,9 @@ public class SteamView : MonoBehaviour, IListener
         MessageHandlerNetwork.AddViewListener(instantiationId, this);
     }
 
-    public SteamView[] GetSteamViewInChildren()
+    public HView[] GetHViewInChildren()
     {
-        return transform.GetComponentsInChildren<SteamView>();
+        return transform.GetComponentsInChildren<HView>();
     }
 
     void SendMessages()
@@ -55,7 +55,7 @@ public class SteamView : MonoBehaviour, IListener
 
         message = new Message(MessageType.NETWORK_VIEW, vMessages);
         P2PSend.SendPacket(message);
-        SteamDebug.Log("SteamView send packet");
+        HDebug.Log("HView send packet");
     }
 
     // Update is called once per frame
