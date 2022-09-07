@@ -25,19 +25,18 @@ An important aspect of the game is that only your script is handled. For example
 
 In your script add a   view 
 ```csharp
-private HView view;
-void Start(){
-	view = GetComponent<HView>();
-}
+    private HView view;
+    void Start(){
+        view = GetComponent<HView>();
+    }
 ```
 
 in the update, only your script is handled
 ```csharp
-void Update(){
-	if (!view.isMine){return;}
-	
-	// My functions like : Move();
-}
+    void Update(){
+	    if (!view.isMine){return;}
+	    // My functions like : Move();
+    }
 ```
 
 ### Create your own script component:
@@ -48,24 +47,24 @@ if you want a component that share the same values with others player, you can i
 ```csharp
 
 	public class MyPlayer : MultiplayerBehavior{
-	public int health;
+        public int health;
 
-    public override void OnReadingView(ViewMessage obs)
-    {
-        if (view.isMine)
+        public override void OnReadingView(ViewMessage obs)
         {
-            return;
+            if (view.isMine)
+            {
+                return;
+            }
+            health = (float)obs.ReceiveValue("health");
         }
-        health = (float)obs.ReceiveValue("health");
-    }
 
-    public override void OnWritingView(ViewMessage obs)
-    {
-        if (view.isMine)//send only your health
+        public override void OnWritingView(ViewMessage obs)
         {
-            obs.SendValue("health", health);
+            if (view.isMine)//send only your health
+            {
+                obs.SendValue("health", health);
+            }
         }
-    }
 }
 ```
 
@@ -80,7 +79,7 @@ Another functionnality is to send a custom message to other players. For example
 ```csharp
     public void WantPause()
     {
-         Message m = new Message(MessageType.START_PAUSE, "");
+        Message m = new Message(MessageType.START_PAUSE, "");
         P2PSend.SendPacket(m);
     }
 ```
@@ -89,21 +88,21 @@ Another functionnality is to send a custom message to other players. For example
 ```csharp
 	public class PauseListener : MonoBehavior, IListener{
 		void Start(){
-				//We add the Pause Listener
-		        MessageHandlerNetwork.AddListener(MessageType.START_PAUSE, this);
+			//We add the Pause Listener
+		    MessageHandlerNetwork.AddListener(MessageType.START_PAUSE, this);
 		}
 	
-	//We receive a message notification
-    public void OnNotify(Message message)
-    {
-        switch (message.MESSAGE_TYPE)
+        //We receive a message notification
+        public void OnNotify(Message message)
         {
-            case MessageType.START_PAUSE://if it's a pause
-                Debug.Log("WE SET THE GAME IN PAUSE")
-				//....
-                break;
+            switch (message.MESSAGE_TYPE)
+            {
+                case MessageType.START_PAUSE://if it's a pause
+                    Debug.Log("WE SET THE GAME IN PAUSE");
+                    //....
+                    break;
+            }
         }
-    }
 	}
 ```
 
