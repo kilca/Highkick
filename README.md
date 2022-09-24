@@ -1,6 +1,6 @@
 # Unity HighKick : A [FacePunch.Steamworks](https://github.com/Facepunch/Facepunch.Steamworks) implementation
 
-## What is it ?
+# What is it ?
 
 It s a simple Steam multiplayer implementation for Unity. It handle message and components synchronisation between multiple players.
 
@@ -8,18 +8,18 @@ I did it because there are only few examples on how to implement multiplayer wit
 
 Warning : this project is a personal project and it can evolve (or not)
 
-## How we use
+# How we use
 
 The way to prepare the components and the multiplayer code is greatly inspired by [Photon](https://doc.photonengine.com/en-us/pun/current/demos-and-tutorials/pun-basics-tutorial/player-networking). 
 You can see some examples in the ``Example`` Folder
 
-### Synchronise a component and it positions
+## Synchronise a component and it positions
 
 * Add a ``HView``, a ``HTransformView``
 
 * Drag the HTransformView to the HView observed components
 
-### Only one prefab represent your player
+## Only one prefab represent your player
 
 An important aspect of the game is that only your script is handled. For example if we have 3 differents players in the game, you want only 1 player to follow your input
 
@@ -39,7 +39,7 @@ in the update, only your script is handled
     }
 ```
 
-### Create your own script component:
+## Create your own script component:
 
 if you want a component that share the same values with others player, you can inherit : MultiplayerBehavior
 (think of adding it to HView observed components)
@@ -68,7 +68,7 @@ if you want a component that share the same values with others player, you can i
 }
 ```
 
-### Send your own message
+## Send your own message
 
 Another functionnality is to send a custom message to other players. For example we want to send to all the players a notification for pausing the game.
 
@@ -107,7 +107,7 @@ Another functionnality is to send a custom message to other players. For example
 ```
 
 
-## Possible improvment
+# Possible improvment
 
 - Clean player Id struct
 - Fix non serializable Unity struct (Vector, Quaternion)
