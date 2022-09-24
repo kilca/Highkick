@@ -238,6 +238,7 @@ public class SteamLobbyManager : MonoBehaviour, IListener
         HDebug.Log("Envoi de Start game");
         Message m = new Message(MessageType.GAME_START_INITIATED, "");
         P2PSend.SendPacket(m);
+        HManager.Instance.UpdateNetworkOut();
         HNetwork.LoadLevel("PlayScene");
         //TEST EXEMPLE
 
@@ -260,8 +261,8 @@ public class SteamLobbyManager : MonoBehaviour, IListener
                 SetPlayerInformationText();
                 break;
             case MessageType.GAME_START_INITIATED:
+                HDebug.Log("CASE GAME_START_INITIATED");
                 HNetwork.LoadLevel("PlayScene");
-                HDebug.Log("CHANGE SCENE");
                 break;
 
         }

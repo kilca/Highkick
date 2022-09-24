@@ -12,6 +12,9 @@ public class HManager : MonoBehaviour, IListener
 
     public UnityEvent OnSteamFailed;
 
+    public float networkTick = 0.1f;
+
+
     private void Awake()
     {
 
@@ -44,24 +47,49 @@ public class HManager : MonoBehaviour, IListener
         {
             Instance = this;
         }
+        InvokeRepeating("UpdateNetworkIn", 0f, networkTick);
+        InvokeRepeating("UpdateNetworkOut", 0f, networkTick);
+
+    }
+
+    private void UpdateNetworkIn()
+    {
+        if (SteamClient.IsValid)
+        {
+            SteamClient.RunCallbacks();
+            if (!HNetwork.isNetworkRunningIn)
+            {
+                return;
+            }
+            P2PReceive.ReadPacketReceived();
+            MessageHandlerNetwork.HandleMessages();
+        }
+    }
+
+
+    public void UpdateNetworkOut()
+    {
+
+        if (!HNetwork.isNetworkRunningOut)
+        {
+            return;
+        }
+
+        P2PSend.SendMessages();
+        foreach (HView v in HNetwork.hViews)
+        {
+            v.SendMessages();
+        }
 
     }
 
     // called second
     void OnSceneLoaded(Scene scene, LoadSceneMode mode)
     {
-        HNetwork.isMessageQueueRunning = true;
-        HNetwork.loadingLevelAndPausedNetwork = false;
+        HNetwork.isNetworkRunningIn = true;
+        HNetwork.isNetworkRunningOut = true;
     }
 
-    private void LateUpdate()
-    {
-        if (SteamClient.IsValid)
-        {
-            SteamClient.RunCallbacks();
-            MessageHandlerNetwork.HandleMessages();
-        }
-    }
 
 
     private void OnApplicationQuit()

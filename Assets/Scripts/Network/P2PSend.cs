@@ -7,7 +7,7 @@ using UnityEngine;
 public static class P2PSend
 {
 
-    public static List<Message> messages = new List<Message>();
+    public static Queue<Message> messages = new Queue<Message>();
 
     public static void SendInstantiate(InstantiateData data)
     {
@@ -28,7 +28,7 @@ public static class P2PSend
             }
             Debug.Log("sending : " + mes.MESSAGE_TYPE + ", to :" + id);
 
-            HDebug.Log("Sending packet to " + id);
+            Debug.Log("Sending packet to " + id);
             bool sent = SteamNetworking.SendP2PPacket(id, packet);
             if (!sent)
             {
@@ -37,28 +37,23 @@ public static class P2PSend
         }
     }
 
+    public static void SendMessages()
+    {
+        while (messages.Count > 0)
+        {
+            Message m = messages.Dequeue();
+            PrepareAndSend(m);
+        }
+
+    }
+    public static void ClearQueue()
+    {
+        messages.Clear();
+    }
+
     public static void SendPacket(Message m)
     {
-        messages.Add(m);
-        if (!HNetwork.isMessageQueueRunning)
-        {
-            return;
-        }
-
-        foreach(Message mes in messages)
-        {
-            Debug.Log("we depile");
-            /*
-            foreach (Message mes in messages)
-            {
-                PrepareAndSend(mes);
-            }
-            messages.Clear();
-            */
-            PrepareAndSend(mes);
-        }
-        messages.Clear();
-
+        messages.Enqueue(m);
     }
 
 }

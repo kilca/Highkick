@@ -36,6 +36,7 @@ public class HView : MonoBehaviour, IListener
     void Start()
     {
         Debug.Log("CREATION OF STAMVIEW WITH ID :" + instantiationId);
+        HNetwork.hViews.Add(this);
         MessageHandlerNetwork.AddViewListener(instantiationId, this);
     }
 
@@ -44,13 +45,19 @@ public class HView : MonoBehaviour, IListener
         return transform.GetComponentsInChildren<HView>();
     }
 
-    void SendMessages()
+    public void SendMessages()
     {
         vMessages = new ViewMessage(instantiationId);
         foreach (MultiplayerBehavior o in observedComponent)
         {
             vMessages.PrepareNextMessage();
-            o.OnWritingView(vMessages);
+            try
+            {
+                o.OnWritingView(vMessages);
+            }catch(System.Exception e)
+            {
+                Debug.LogError("View Exception :" + e);
+            }
         }
 
         message = new Message(MessageType.NETWORK_VIEW, vMessages);
@@ -58,9 +65,4 @@ public class HView : MonoBehaviour, IListener
         HDebug.Log("HView send packet");
     }
 
-    // Update is called once per frame
-    void Update()
-    {
-        SendMessages();
-    }
 }

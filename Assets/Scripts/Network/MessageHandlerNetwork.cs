@@ -10,7 +10,7 @@ public static class MessageHandlerNetwork
     //listener specific to View message
     public static Dictionary<int,IListener> viewListeners = new Dictionary<int, IListener>();
 
-    public static List<Message> _queue = new List<Message>();
+    public static Queue<Message> _queue = new Queue<Message>();
 
     public static void AddListener(MessageType mtype, IListener listener)
     {
@@ -38,6 +38,9 @@ public static class MessageHandlerNetwork
         }
     }
 
+    /**
+     * Handle message for everything inheriting HView components
+     */
     public static void HandleViewMessages(Message m)
     {
         ViewMessage vm = (ViewMessage)m._data;
@@ -46,7 +49,7 @@ public static class MessageHandlerNetwork
         }
         else
         {
-            Debug.LogError("key : " +vm.viewId + ", not present");
+            Debug.LogError("key : " +vm.viewId + ", not present for message : "+m.MESSAGE_TYPE);
         }
 
     }
@@ -69,14 +72,10 @@ public static class MessageHandlerNetwork
     public static void HandleMessages()
     {
 
-        if (HNetwork.loadingLevelAndPausedNetwork)
-        {
-            return;
-        }
 
-        foreach (Message m in _queue)
+        while(_queue.Count > 0)
         {
-
+            Message m = _queue.Dequeue();
             if (m.MESSAGE_TYPE == MessageType.NETWORK_VIEW)
             {
                 HandleViewMessages(m);
@@ -85,10 +84,6 @@ public static class MessageHandlerNetwork
             {
                 HandleBasicMessages(m);
             }
-
-            
         }
-
-        _queue.Clear();
     }
 }

@@ -4,16 +4,10 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class P2PReceive : MonoBehaviour
+public static class P2PReceive
 {
 
-    private void Awake()
-    {
-        DontDestroyOnLoad(this);
-    }
-
-
-    public void FixedUpdate()
+    public static void ReadPacketReceived()
     {
         while (SteamNetworking.IsP2PPacketAvailable())
         {
@@ -27,7 +21,7 @@ public class P2PReceive : MonoBehaviour
                 {
                     Message m = ObjectSerializationExtension.Deserialize<Message>(p2packet.Value.Data);
                     HDebug.Log("Receive : " + m.MESSAGE_TYPE);
-                    MessageHandlerNetwork._queue.Add(m);
+                    MessageHandlerNetwork._queue.Enqueue(m);
                 }
                 catch (Exception e)
                 {
@@ -40,4 +34,5 @@ public class P2PReceive : MonoBehaviour
             }
         }
     }
+
 }

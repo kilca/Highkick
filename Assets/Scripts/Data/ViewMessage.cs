@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -24,7 +25,14 @@ public class ViewMessage
 
     public object ReceiveValue(string s)
     {
-        return datas[reference][s];
+        try
+        {
+            return datas[reference][s];
+        }catch(Exception e)
+        {
+            Debug.LogError("View Message, data error for : " + s);
+            return null;
+        }    
     }
 
     public Dictionary<string, object> ReceiveNext()

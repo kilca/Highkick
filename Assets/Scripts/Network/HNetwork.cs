@@ -17,8 +17,10 @@ public class HNetwork{
 
     const int MAX_VIEW_IDS = 1000;
     public static int instantiatedCount = 0;
-    public static bool isMessageQueueRunning = true;
-    public static bool loadingLevelAndPausedNetwork = false;
+    public static bool isNetworkRunningIn = true;
+    public static bool isNetworkRunningOut = true;
+
+    public static List<HView> hViews = new List<HView>();
 
     //============ Lobby====================
 
@@ -224,8 +226,9 @@ public class HNetwork{
 
     public static void LoadLevel(string levelName)
     {
-        isMessageQueueRunning = false;
-        loadingLevelAndPausedNetwork = true;
+        P2PSend.ClearQueue();
+        isNetworkRunningIn = false;
+        isNetworkRunningOut = false;
         SceneManager.LoadScene(levelName);
     }
 
@@ -233,4 +236,5 @@ public class HNetwork{
     {
         HDebug.Log("Change to new scene");
     }
+
 }
