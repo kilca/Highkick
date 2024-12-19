@@ -1,3 +1,7 @@
+# Edit : 
+
+The steam api part may be deprecated, if you want a good alternative, see [Fishnet](https://fish-networking.gitbook.io/docs)
+
 # Unity HighKick : A [FacePunch.Steamworks](https://github.com/Facepunch/Facepunch.Steamworks) implementation
 
 # What is it ?
